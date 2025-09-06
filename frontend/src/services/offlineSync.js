@@ -47,7 +47,29 @@ const addPending = async (action) => {
   await localforage.setItem('pendingActions', pending);
 };
 
+const addMoodOffline = async (emoji) => {
+  const moods = await localforage.getItem('moods') || [];
+  const mood = { emoji, date: new Date().toISOString(), local: true };
+  moods.push(mood);
+  await localforage.setItem('moods', moods);
+  await addPending({ type: 'addMood', data: { emoji } });
+};
+
+const addStandupOffline = async (update) => {
+  const standups = await localforage.getItem('standups') || [];
+  const standup = { update, date: new Date().toISOString(), local: true };
+  standups.push(standup);
+  await localforage.setItem('standups', standups);
+  await addPending({ type: 'addStandup', data: { update } });
+};
+
 // Export offlineSync as a named export
 export { offlineSync };
 // Export default object with all functions
-export default { syncAll: offlineSync, createTaskOffline, updateTaskOffline };
+export default { 
+  syncAll: offlineSync, 
+  createTaskOffline, 
+  updateTaskOffline,
+  addMoodOffline,
+  addStandupOffline
+};

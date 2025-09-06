@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const http = require('http');
 const socketIo = require('socket.io');
+const cors = require('cors');
 const authRoutes = require('./src/routes/authRoutes');
 const projectRoutes = require('./src/routes/projectRoutes');
 const taskRoutes = require('./src/routes/taskRoutes');
@@ -15,6 +17,7 @@ const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: '*' } });
 const prisma = new PrismaClient();
 
+app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);

@@ -13,6 +13,19 @@ exports.addMoodPulse = async (req, res) => {
   res.json({ success: true });
 };
 
+exports.getStandups = async (req, res) => {
+  try {
+    const standups = await prisma.standup.findMany({
+      where: { userId: req.user.id },
+      orderBy: { date: 'desc' },
+      take: 10 // Get last 10 standups
+    });
+    res.json(standups);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.addStandup = async (req, res) => {
   const { update } = req.body;
   await prisma.standup.create({ data: { update, userId: req.user.id } });

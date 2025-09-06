@@ -16,6 +16,22 @@ exports.getAllTasks = async (req, res) => {
   }
 };
 
+exports.getTasksByProject = async (req, res) => {
+  try {
+    const { projectId } = req.query;
+    const tasks = await prisma.task.findMany({
+      where: { projectId: parseInt(projectId) },
+      include: {
+        assignee: true,
+        project: true,
+      },
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createTask = async (req, res) => {
   const { title, description, assigneeId, dueDate, projectId, status } = req.body;
   const task = await prisma.task.create({
