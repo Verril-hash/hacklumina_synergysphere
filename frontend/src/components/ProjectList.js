@@ -4,7 +4,10 @@ import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const ProjectList = () => {
-  const { data: projects } = useQuery(['projects'], () => api.get('/projects').then(res => res.data));
+  const { data: projects } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => api.get('/projects').then(res => res.data),
+  });
   const [newProjectName, setNewProjectName] = useState('');
   const navigate = useNavigate();
 

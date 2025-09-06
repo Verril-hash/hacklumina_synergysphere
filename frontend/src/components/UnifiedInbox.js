@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 
 const UnifiedInbox = () => {
-  const { data: tasks } = useQuery(['allTasks'], () => api.get('/tasks/all').then(res => res.data)); // Assume endpoint for cross-project
+  const { data: tasks } = useQuery({
+    queryKey: ['allTasks'],
+    queryFn: () => api.get('/tasks/all').then(res => res.data),
+  });
 
   return (
     <div>
