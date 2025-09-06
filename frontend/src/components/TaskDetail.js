@@ -6,7 +6,11 @@ import TaskTimeline from './TaskTimeline';
 import RiskAlert from './RiskAlert';
 
 const TaskDetail = ({ taskId }) => {
-  const { data: task } = useQuery(['task', taskId], () => api.get(`/tasks/${taskId}`).then(res => res.data));
+  const { data: task } = useQuery({
+    queryKey: ['task', taskId],
+    queryFn: () => api.get(`/tasks/${taskId}`).then(res => res.data),
+    enabled: !!taskId
+  });
   const [status, setStatus] = useState(task?.status);
 
   const handleUpdate = () => {

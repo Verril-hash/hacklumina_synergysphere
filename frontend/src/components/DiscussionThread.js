@@ -3,7 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 
 const DiscussionThread = ({ projectId }) => {
-  const { data: discussions } = useQuery(['discussions', projectId], () => api.get(`/discussions/${projectId}`).then(res => res.data));
+  const { data: discussions } = useQuery({
+    queryKey: ['discussions', projectId],
+    queryFn: () => api.get(`/discussions/${projectId}`).then(res => res.data),
+    enabled: !!projectId
+  });
   const [message, setMessage] = useState('');
   const [parentId, setParentId] = useState(null);
 

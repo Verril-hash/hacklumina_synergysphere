@@ -3,7 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 
 const TaskTimeline = ({ taskId }) => {
-  const { data: timeline } = useQuery(['timeline', taskId], () => api.get(`/tasks/${taskId}/timeline`).then(res => res.data)); // Assume endpoint
+  const { data: timeline } = useQuery({
+    queryKey: ['timeline', taskId],
+    queryFn: () => api.get(`/tasks/${taskId}/timeline`).then(res => res.data),
+    enabled: !!taskId
+  });
 
   return (
     <ul>

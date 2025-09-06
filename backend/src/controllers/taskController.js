@@ -2,6 +2,20 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const syncService = require('../services/syncService');
 
+exports.getAllTasks = async (req, res) => {
+  try {
+    const tasks = await prisma.task.findMany({
+      include: {
+        assignee: true,
+        project: true,
+      },
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createTask = async (req, res) => {
   const { title, description, assigneeId, dueDate, projectId, status } = req.body;
   const task = await prisma.task.create({

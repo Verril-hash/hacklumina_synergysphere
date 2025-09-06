@@ -3,7 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 
 const PriorityGrid = ({ projectId }) => {
-  const { data: tasks } = useQuery(['tasks', projectId], () => api.get(`/tasks?projectId=${projectId}`).then(res => res.data));
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks', projectId],
+    queryFn: () => api.get(`/tasks?projectId=${projectId}`).then(res => res.data),
+    enabled: !!projectId
+  });
 
   const prioritize = (task) => {
     // Simple logic: urgent if due soon, important if high impact (assume field or logic)

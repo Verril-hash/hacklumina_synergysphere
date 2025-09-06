@@ -5,7 +5,11 @@ import { useSwipeable } from 'react-swipeable';
 import offlineSync from '../services/offlineSync';
 
 const TaskList = ({ projectId }) => {
-  const { data: tasks } = useQuery(['tasks', projectId], () => api.get(`/tasks?projectId=${projectId}`).then(res => res.data));
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks', projectId],
+    queryFn: () => api.get(`/tasks?projectId=${projectId}`).then(res => res.data),
+    enabled: !!projectId
+  });
 
   const handleSwipe = (taskId, direction) => {
     const newStatus = direction === 'right' ? 'Done' : 'In Progress';

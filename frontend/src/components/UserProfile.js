@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 
 const UserProfile = () => {
-  const { data: user } = useQuery(['profile'], () => api.get('/users/profile').then(res => res.data));
+  const { data: user } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () => api.get('/users/profile').then(res => res.data)
+  });
 
   const handleLogout = () => {
     localStorage.removeItem('token');
