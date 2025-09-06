@@ -34,8 +34,16 @@ exports.getTasksByProject = async (req, res) => {
 
 exports.createTask = async (req, res) => {
   const { title, description, assigneeId, dueDate, projectId, status } = req.body;
+  // Ensure projectId is an integer for Prisma
   const task = await prisma.task.create({
-    data: { title, description, assigneeId, dueDate, projectId, status },
+    data: {
+      title,
+      description,
+      assigneeId,
+      dueDate,
+      projectId: parseInt(projectId),
+      status,
+    },
   });
   res.json(task);
 };

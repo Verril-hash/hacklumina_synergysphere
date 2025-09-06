@@ -4,7 +4,6 @@ import TaskList from './TaskList';
 import DiscussionThread from './DiscussionThread';
 import MoodPulse from './MoodPulse';
 import PriorityGrid from './PriorityGrid';
-import UnifiedInbox from './UnifiedInbox';
 import StandupRecorder from './StandupRecorder';
 
 const ProjectDetail = () => {
@@ -17,7 +16,7 @@ const ProjectDetail = () => {
       <DiscussionThread projectId={id} />
       <MoodPulse />
       <PriorityGrid projectId={id} />
-      <UnifiedInbox />
+
       <StandupRecorder />
     </div>
   );

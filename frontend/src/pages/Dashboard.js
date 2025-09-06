@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ProjectList from '../components/ProjectList';
 import NotificationBell from '../components/NotificationBell';
-import UnifiedInbox from '../components/UnifiedInbox';
 import StandupRecorder from '../components/StandupRecorder';
 import StandupHistory from '../components/StandupHistory';
 import MoodPulse from '../components/MoodPulse';

@@ -4,8 +4,14 @@ const prisma = new PrismaClient();
 exports.createDiscussion = async (req, res) => {
   const { message, projectId, parentId } = req.body;
   const userId = req.user.id;
+  // Ensure projectId is an integer for Prisma
   const discussion = await prisma.discussion.create({
-    data: { message, userId, projectId, parentId },
+    data: {
+      message,
+      userId,
+      projectId: parseInt(projectId),
+      parentId,
+    },
   });
   res.json(discussion);
 };
